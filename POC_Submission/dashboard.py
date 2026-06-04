@@ -3,9 +3,26 @@ import streamlit as st
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+
 st.set_page_config(
     page_title="Recommendation Engine",
     layout="wide"
+)
+
+
+st.markdown(
+    """
+    <div style="
+        background:red;
+        color:white;
+        padding:20px;
+        border-radius:10px;
+        font-size:30px;
+    ">
+    CSS TEST
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
 st.sidebar.title("Navigation")
@@ -29,7 +46,30 @@ page = st.sidebar.radio(
 
 if page == "Project Overview":
 
-    st.title("🎬 Personalized Recommendation Engine")
+    st.markdown("""
+<div style="
+background: linear-gradient(90deg,#2563EB,#38BDF8);
+padding:30px;
+border-radius:15px;
+text-align:center;
+color:white;
+margin-bottom:20px;
+">
+
+<h1 style="color:white;">
+🎬 Personalized Recommendation Engine
+</h1>
+
+<p style="font-size:20px;">
+AI-Powered Movie Recommendation System
+</p>
+
+<p>
+Collaborative Filtering • Deep Learning • Hybrid Recommendations
+</p>
+
+</div>
+""", unsafe_allow_html=True)
 
     st.write(
         """
