@@ -49,13 +49,10 @@ if page == "Project Overview":
     st.header("Model Performance")
 
     col1, col2, col3, col4 = st.columns(4)
-
     col1.metric("RMSE", "0.8826")
     col2.metric("MAE", "0.6780")
     col3.metric("Precision", "0.8067")
     col4.metric("Recall", "0.3326")
-
-    st.subheader("Evaluation Metrics Chart")
 
     metrics_df = pd.DataFrame(
     {
@@ -74,6 +71,25 @@ if page == "Project Overview":
     }
 )
 
+    st.subheader("Evaluation Metrics Chart")
+
+    metrics_df = pd.DataFrame(
+        {
+            "Metric": [
+                "RMSE",
+                "MAE",
+                "Precision",
+                "Recall"
+            ],
+            "Value": [
+                0.8799,
+                0.6759,
+                0.8098,
+                0.3314
+            ]
+        }
+    )
+
     st.bar_chart(
         metrics_df.set_index("Metric")
     )
@@ -81,7 +97,6 @@ if page == "Project Overview":
 # ==================================================
 # COLD START RECOMMENDATIONS
 # ==================================================
-
 elif page == "Cold Start Recommendations":
 
     st.title("Cold Start Recommendations")
@@ -212,6 +227,7 @@ elif page == "Deep Learning":
 
     st.write(
     """
+    Deep Learning Recommender implemented using PyTorch.
 
     Components:
     - User Embedding Layer
@@ -231,6 +247,8 @@ elif page == "Deep Learning":
     col1.metric("Epoch 1 Loss", "1.7859")
     col2.metric("Epoch 20 Loss", "1.0802")
     col3.metric("Predicted Rating", "3.33")
+
+    
 
 
 # ==================================================
