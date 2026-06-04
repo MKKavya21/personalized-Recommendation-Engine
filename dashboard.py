@@ -275,9 +275,9 @@ elif page == "Hybrid Recommendation":
         • Popularity Ranking
 
         Final Score =
-        0.4 × SVD Score +
-        0.3 × Content Score +
-        0.3 × Popularity Score
+        0.5 × SVD Score +
+        0.4 × Content Score +
+        0.1 × Popularity Score
         """
     )
 

@@ -127,8 +127,10 @@ elif page == "Content-Based Recommendations":
     movies["genres"] = movies["genres"].fillna("")
 
     tfidf = TfidfVectorizer(
-        stop_words="english"
-    )
+    stop_words="english",
+    max_features=5000,
+    ngram_range=(1, 2)
+)
 
     tfidf_matrix = tfidf.fit_transform(
         movies["genres"]
@@ -226,46 +228,154 @@ elif page == "Deep Learning":
 
 elif page == "Hybrid Recommendation":
 
-    st.title("Hybrid Recommendation Engine")
+    st.title("🔥 Hybrid Recommendation Engine")
 
-    st.write(
-        """
-        Multiple recommendation signals are
-        combined to generate a final score.
-        """
+    movies = pd.read_csv("data/movies.csv")
+    ratings = pd.read_csv("data/ratings.csv")
+    tags = pd.read_csv("data/tags.csv")
+
+    # --------------------------
+    # Popularity Score
+    # --------------------------
+
+    movie_stats = ratings.groupby("movieId").agg(
+        avg_rating=("rating", "mean"),
+        rating_count=("rating", "count")
+    ).reset_index()
+
+    # --------------------------
+    # Content-Based Features
+    # --------------------------
+
+    movie_tags = tags.groupby(
+        "movieId"
+    )["tag"].apply(
+        lambda x: " ".join(x.astype(str))
+    ).reset_index()
+
+    movies = movies.merge(
+        movie_tags,
+        on="movieId",
+        how="left"
     )
 
-    hybrid_df = pd.DataFrame(
-        {
-            "Component": [
-                "SVD Score",
-                "Content Score",
-                "Popularity Score"
-            ],
-            "Weight": [
-                0.4,
-                0.3,
-                0.3
+    movies["tag"] = movies["tag"].fillna("")
+    movies["genres"] = movies["genres"].fillna("")
+
+    movies["content"] = (
+        movies["genres"] +
+        " " +
+        movies["tag"]
+    )
+
+    tfidf = TfidfVectorizer(
+        stop_words="english",
+        max_features=5000,
+        ngram_range=(1,2)
+    )
+
+    tfidf_matrix = tfidf.fit_transform(
+        movies["content"]
+    )
+
+    cosine_sim = cosine_similarity(
+        tfidf_matrix,
+        tfidf_matrix
+    )
+
+    indices = pd.Series(
+        movies.index,
+        index=movies["title"]
+    ).drop_duplicates()
+
+    selected_movie = st.selectbox(
+        "Choose a Movie",
+        movies["title"]
+    )
+
+    if st.button("Generate Hybrid Recommendations"):
+
+        idx = indices[selected_movie]
+
+        sim_scores = list(
+            enumerate(cosine_sim[idx])
+        )
+
+        sim_scores = sorted(
+            sim_scores,
+            key=lambda x: x[1],
+            reverse=True
+        )
+
+        sim_scores = sim_scores[1:51]
+
+        movie_indices = [
+            i[0]
+            for i in sim_scores
+        ]
+
+        recommendation_df = movies.iloc[
+            movie_indices
+        ][
+            ["movieId", "title", "genres"]
+        ]
+
+        recommendation_df = recommendation_df.merge(
+            movie_stats,
+            on="movieId",
+            how="left"
+        )
+
+        recommendation_df["avg_rating"] = (
+            recommendation_df["avg_rating"]
+            .fillna(0)
+        )
+
+        recommendation_df["rating_count"] = (
+            recommendation_df["rating_count"]
+            .fillna(0)
+        )
+
+        # --------------------------
+        # Hybrid Score
+        # --------------------------
+
+        recommendation_df["hybrid_score"] = (
+            0.7 *
+            recommendation_df["avg_rating"]
+            +
+            0.3 *
+            (
+                recommendation_df["rating_count"]
+                /
+                recommendation_df["rating_count"].max()
+            )
+        )
+
+        recommendation_df = (
+            recommendation_df
+            .sort_values(
+                "hybrid_score",
+                ascending=False
+            )
+            .head(10)
+        )
+
+        st.subheader(
+            "Top Hybrid Recommendations"
+        )
+
+        st.dataframe(
+            recommendation_df[
+                [
+                    "title",
+                    "genres",
+                    "avg_rating",
+                    "rating_count",
+                    "hybrid_score"
+                ]
             ]
-        }
-    )
-
-    st.subheader("Blending Layer")
-
-    st.dataframe(hybrid_df)
-
-    st.subheader("Final Formula")
-
-    st.code(
-        """
-Final Score =
-0.4 × SVD Score
-+
-0.3 × Content Score
-+
-0.3 × Popularity Score
-        """
-    )
+        )
     # ==================================================
 # TRADITIONAL VS DEEP LEARNING
 # ==================================================

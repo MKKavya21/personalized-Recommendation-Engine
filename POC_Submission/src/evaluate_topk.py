@@ -25,13 +25,19 @@ trainset, testset = train_test_split(
     random_state=42
 )
 
-model = SVD()
+model = SVD(
+    n_factors=100,
+    n_epochs=50,
+    lr_all=0.005,
+    reg_all=0.02,
+    random_state=42
+)
 
 model.fit(trainset)
 
 predictions = model.test(testset)
 
-THRESHOLD = 4.0
+THRESHOLD = 3.5
 
 tp = 0
 fp = 0
