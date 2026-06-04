@@ -29,7 +29,12 @@ page = st.sidebar.radio(
 
 if page == "Project Overview":
 
-    st.title("🎬 Personalized Recommendation Engine")
+    st.markdown("""
+<h1 style='text-align:center;
+color:#FF4B4B;'>
+🎬 Personalized Recommendation Engine
+</h1>
+""", unsafe_allow_html=True)
 
     st.write(
         """
