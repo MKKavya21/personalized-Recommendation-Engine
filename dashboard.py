@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st
+import plotly.express as px
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -106,8 +107,30 @@ st.sidebar.markdown("<small style='color:#8b949e'>MovieLens Dataset · POC</smal
 
 if page == "Project Overview":
 
-    st.markdown("# 🎬 Personalized Recommendation Engine")
-    st.markdown("---")
+    st.markdown("""
+<div style="
+background:#1f6feb;
+padding:15px;
+border-radius:12px;
+text-align:center;
+margin-bottom:15px;
+">
+
+<h2 style="color:white; margin:0;">
+🎬 Personalized Recommendation Engine
+</h2>
+
+<p style="
+color:white;
+margin-top:5px;
+margin-bottom:0;
+font-size:14px;
+">
+Collaborative Filtering • Deep Learning • Hybrid Recommendation
+</p>
+
+</div>
+""", unsafe_allow_html=True)
 
     st.markdown("""
     <div class="info-box">
@@ -139,7 +162,17 @@ if page == "Project Overview":
             "Value":  [0.8799, 0.6759, 0.8098, 0.3314]
         }
     )
-    st.bar_chart(metrics_df.set_index("Metric"))
+    fig = px.bar(
+    metrics_df,
+    x="Metric",
+    y="Value",
+    title="Model Performance Metrics"
+)
+
+    st.plotly_chart(
+    fig,
+    use_container_width=True
+)
 
 # ==================================================
 # COLD START RECOMMENDATIONS
