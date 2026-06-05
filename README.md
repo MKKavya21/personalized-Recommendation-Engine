@@ -240,31 +240,31 @@ python -m streamlit run dashboard.py
 
 ## Project Overview
 
-![Project Overview](screenshots/overview.png)
+![Project Overview](screenshots/overview.jpg)
 
 ## Cold Start Recommendations
 
-![Cold Start](screenshots/cold_start.png)
+![Cold Start](screenshots/Cold_start.jpg)
 
 ## Content-Based Recommendations
 
-![Content Based](screenshots/content_based.png)
+![Content Based](screenshots/Content_based.jpg)
 
 ## Deep Learning Recommender
 
-![Deep Learning](screenshots/deep_learning.png)
+![Deep Learning](screenshots/Deep_learning.jpg)
 
 ## Hybrid Recommendation Engine
 
-![Hybrid Recommendation](screenshots/hybrid.png)
+![Hybrid Recommendation](screenshots/Hybrid_Recommendation.jpg)
 
 ## Traditional vs Deep Learning
 
-![Comparison](screenshots/comparison.png)
+![Comparison](screenshots/Traditional_DeepLearning.jpg)
 
 ## Model Architecture
 
-![Architecture](screenshots/architecture.png)
+![Architecture](screenshots/Model_Architecture.jpg)
 
 ---
 
