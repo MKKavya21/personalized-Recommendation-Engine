@@ -82,7 +82,7 @@ hr { border-color: #30363d; }
 """, unsafe_allow_html=True)
 
 # Sidebar
-st.sidebar.markdown("## 🎬 Reco Engine")
+st.sidebar.markdown("## 🎬 Recommendation Dashboard")
 st.sidebar.markdown("---")
 
 page = st.sidebar.radio(
