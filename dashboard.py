@@ -251,11 +251,11 @@ elif page == "Content-Based Recommendations":
     if st.button("Recommend Similar Movies"):
 
         idx         = indices[selected_movie]
-        sim_scores  = sorted(enumerate(cosine_sim[idx]), key=lambda x: x[1], reverse=True)[1:51]
+        sim_scores  = sorted(enumerate(cosine_sim[idx]), key=lambda x: x[1], reverse=True)[1:11]
         movie_indices = [i[0] for i in sim_scores]
         recommendations = movies.iloc[movie_indices][["title", "genres"]]
 
-        st.markdown(f"### ✅ Top 50 Movies Similar to *{selected_movie}*")
+        st.markdown(f"### ✅ Top 10 Movies Similar to *{selected_movie}*")
         st.dataframe(recommendations.reset_index(drop=True), use_container_width=True)
 
 # ==================================================
